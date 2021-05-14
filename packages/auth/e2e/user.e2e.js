@@ -710,7 +710,7 @@ describe('auth().currentUser', function () {
   });
 
   describe('updatePhoneNumber()', function () {
-    it('should update the phone number', async function () {
+    ios.it('should update the phone number', async function () {
       const testPhone = await getRandomPhoneNumber();
       const confirmResult = await firebase.auth().signInWithPhoneNumber(testPhone);
       const smsCode = await getLastSmsCode(testPhone);

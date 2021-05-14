@@ -22,7 +22,7 @@ describe('auth() => Phone', function () {
   });
 
   describe('signInWithPhoneNumber', function () {
-    it('signs in with a valid code', async function () {
+    ios.it('signs in with a valid code', async function () {
       const testPhone = await getRandomPhoneNumber();
       const confirmResult = await firebase.auth().signInWithPhoneNumber(testPhone);
       confirmResult.verificationId.should.be.a.String();
@@ -36,7 +36,7 @@ describe('auth() => Phone', function () {
       // userCredential.user.phoneNumber.should.equal(TEST_PHONE_A);
     });
 
-    it('errors on invalid code', async function () {
+    ios.it('errors on invalid code', async function () {
       const testPhone = await getRandomPhoneNumber();
       const confirmResult = await firebase.auth().signInWithPhoneNumber(testPhone);
       confirmResult.verificationId.should.be.a.String();
@@ -55,7 +55,7 @@ describe('auth() => Phone', function () {
   });
 
   describe('verifyPhoneNumber', function () {
-    it('successfully verifies', async function () {
+    ios.it('successfully verifies', async function () {
       const testPhone = await getRandomPhoneNumber();
       const confirmResult = await firebase.auth().signInWithPhoneNumber(testPhone);
       const lastSmsCode = await getLastSmsCode(testPhone);
@@ -63,15 +63,18 @@ describe('auth() => Phone', function () {
       await firebase.auth().verifyPhoneNumber(testPhone, false, false);
     });
 
-    it('uses the autoVerifyTimeout when a non boolean autoVerifyTimeoutOrForceResend is provided', async function () {
-      const testPhone = await getRandomPhoneNumber();
-      const confirmResult = await firebase.auth().signInWithPhoneNumber(testPhone);
-      const lastSmsCode = await getLastSmsCode(testPhone);
-      await confirmResult.confirm(lastSmsCode);
-      await firebase.auth().verifyPhoneNumber(testPhone, 0, false);
-    });
+    ios.it(
+      'uses the autoVerifyTimeout when a non boolean autoVerifyTimeoutOrForceResend is provided',
+      async function () {
+        const testPhone = await getRandomPhoneNumber();
+        const confirmResult = await firebase.auth().signInWithPhoneNumber(testPhone);
+        const lastSmsCode = await getLastSmsCode(testPhone);
+        await confirmResult.confirm(lastSmsCode);
+        await firebase.auth().verifyPhoneNumber(testPhone, 0, false);
+      },
+    );
 
-    it('throws an error with an invalid on event', async function () {
+    ios.it('throws an error with an invalid on event', async function () {
       const testPhone = await getRandomPhoneNumber();
       try {
         await firebase
@@ -88,7 +91,7 @@ describe('auth() => Phone', function () {
       }
     });
 
-    it('throws an error with an invalid observer event', async function () {
+    ios.it('throws an error with an invalid observer event', async function () {
       const testPhone = await getRandomPhoneNumber();
       try {
         await firebase
@@ -105,7 +108,7 @@ describe('auth() => Phone', function () {
       }
     });
 
-    it('successfully runs verification complete handler', async function () {
+    ios.it('successfully runs verification complete handler', async function () {
       const testPhone = await getRandomPhoneNumber();
       await firebase
         .auth()
@@ -115,7 +118,7 @@ describe('auth() => Phone', function () {
       return Promise.resolve();
     });
 
-    it('successfully runs and adds emitters', async function () {
+    ios.it('successfully runs and adds emitters', async function () {
       const testPhone = await getRandomPhoneNumber();
       const obervserCb = () => {};
       const errorCb = () => {};
@@ -129,7 +132,7 @@ describe('auth() => Phone', function () {
         .on('state_changed', obervserCb, errorCb, successCb, () => {});
     });
 
-    it('catches an error and emits an error event', async function () {
+    ios.it('catches an error and emits an error event', async function () {
       return firebase
         .auth()
         .verifyPhoneNumber('test')
